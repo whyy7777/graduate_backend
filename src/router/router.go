@@ -1,10 +1,8 @@
 package router
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"music_web/db"
-	"net/http"
 )
 
 func NetInit() *gin.Engine {
@@ -13,15 +11,18 @@ func NetInit() *gin.Engine {
 		username := context.PostForm("username")
 		password := context.PostForm("password")
 		gender := context.PostForm("gender")
-		db.Register(username, password, gender)
+		ret := db.Register(username, password, gender)
+		context.JSON(200, gin.H{
+			"result": ret,
+		})
 	})
 	r.POST("/login", func(context *gin.Context) {
 		username := context.PostForm("username")
 		password := context.PostForm("password")
-		res := db.Validate(username, password)
-		if res {
-			context.String(http.StatusOK, fmt.Sprint("right password"))
-		}
+		ret := db.Validate(username, password)
+		context.JSON(200, gin.H{
+			"result": ret,
+		})
 	})
 	return r
 }

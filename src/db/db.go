@@ -2,7 +2,6 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
 	"strconv"
 	"time"
 )
@@ -23,28 +22,39 @@ func InitDB() (err error) {
 	return
 }
 
-func Register(username, password, gender string) {
+// Register 0: register success, 1: already have same username, 2: internal error
+func Register(username, password, gender string) int {
+	var id = -1
+	db.QueryRow("SELECT id FROM users WHERE username = '" + username + "'").Scan(&id)
+	if id == -1 {
+		return 1
+	}
 	nowTime := time.Now()
 	date := strconv.Itoa(nowTime.Year()) + "-" + strconv.Itoa(int(nowTime.Month())) + "-" + strconv.Itoa(nowTime.Day())
-	fmt.Printf(date)
 	sqlStr := `INSERT INTO users(username, password, gender, register_time)VALUES('` + username + `','` + password + `','` + gender + `','` + date + `');`
-	fmt.Println(sqlStr)
 	_, err := db.Exec(sqlStr)
 	if err != nil {
-		fmt.Println(err)
+		return 2
+	} else {
+		return 0
 	}
 }
 
-func Validate(username, password string) bool {
+// Validate 0: log in success, 1: user doesn't exist, 2: internal error, 3: incorrect password
+func Validate(username, password string) int {
+	var id = -1
+	db.QueryRow("SELECT id FROM users WHERE username = '" + username + "'").Scan(&id)
+	if id == -1 {
+		return 1
+	}
 	var realPassword string
 	sqlStr := `SELECT password FROM users WHERE username = '` + username + `';`
 	err := db.QueryRow(sqlStr).Scan(&realPassword)
 	if err != nil {
-		return false
+		return 2
 	}
-	fmt.Println(realPassword)
 	if realPassword == password {
-		return true
+		return 0
 	}
-	return false
+	return 3
 }
