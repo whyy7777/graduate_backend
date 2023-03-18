@@ -41,20 +41,20 @@ func Register(username, password, gender string) int {
 }
 
 // Validate 0: log in success, 1: user doesn't exist, 2: internal error, 3: incorrect password
-func Validate(username, password string) int {
+func Validate(username, password string) (int, uint) {
 	var id = -1
 	db.QueryRow("SELECT id FROM users WHERE username = '" + username + "'").Scan(&id)
 	if id == -1 {
-		return 1
+		return 1, 0
 	}
 	var realPassword string
 	sqlStr := `SELECT password FROM users WHERE username = '` + username + `';`
 	err := db.QueryRow(sqlStr).Scan(&realPassword)
 	if err != nil {
-		return 2
+		return 2, 0
 	}
 	if realPassword == password {
-		return 0
+		return 0, uint(id)
 	}
-	return 3
+	return 3, 0
 }
