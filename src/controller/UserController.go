@@ -21,7 +21,8 @@ func Login(context *gin.Context) {
 				return
 			} else {
 				context.JSON(200, gin.H{
-					"msg": "login success",
+					"code": 0,
+					"msg":  "login success",
 					"data": gin.H{
 						"token": token,
 					},
@@ -30,15 +31,18 @@ func Login(context *gin.Context) {
 		}
 	case 1:
 		context.JSON(404, gin.H{
-			"msg": "user doesn't exist",
+			"code": 1,
+			"msg":  "user doesn't exist",
 		})
 	case 2:
 		context.JSON(500, gin.H{
-			"msg": "internal error",
+			"code": 2,
+			"msg":  "internal error",
 		})
 	case 3:
 		context.JSON(500, gin.H{
-			"msg": "incorrect password",
+			"code": 3,
+			"msg":  "incorrect password",
 		})
 	}
 }
@@ -48,10 +52,23 @@ func Register(context *gin.Context) {
 	password := context.PostForm("password")
 	gender := context.PostForm("gender")
 	ret := db.Register(username, password, gender)
-
-	context.JSON(200, gin.H{
-		"result": ret,
-	})
+	switch ret {
+	case 0:
+		context.JSON(200, gin.H{
+			"code": 0,
+			"msg":  "register success",
+		})
+	case 1:
+		context.JSON(200, gin.H{
+			"code": 1,
+			"msg":  "username is not available",
+		})
+	case 2:
+		context.JSON(200, gin.H{
+			"code": 2,
+			"msg":  "internal error",
+		})
+	}
 }
 
 func Info(context *gin.Context) {
