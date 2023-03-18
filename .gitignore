@@ -2,3 +2,5 @@
 src/main
 src/.DS_Store
 /.DS_Store
+src/music_web
+src/temp.go

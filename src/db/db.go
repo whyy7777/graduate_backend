@@ -26,7 +26,7 @@ func InitDB() (err error) {
 func Register(username, password, gender string) int {
 	var id = -1
 	db.QueryRow("SELECT id FROM users WHERE username = '" + username + "'").Scan(&id)
-	if id == -1 {
+	if id != -1 {
 		return 1
 	}
 	nowTime := time.Now()
