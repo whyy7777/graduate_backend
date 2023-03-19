@@ -12,23 +12,22 @@ func Login(context *gin.Context) {
 	ret, id := db.Validate(username, password)
 	switch ret {
 	case 0:
-		{
-			token, err := common.ReleaseToken(id)
-			if err != nil {
-				context.JSON(500, gin.H{
-					"msg": "internal error",
-				})
-				return
-			} else {
-				context.JSON(200, gin.H{
-					"code": 0,
-					"msg":  "login success",
-					"data": gin.H{
-						"token": token,
-					},
-				})
-			}
+		token, err := common.ReleaseToken(id)
+		if err != nil {
+			context.JSON(500, gin.H{
+				"msg": "internal error",
+			})
+			return
+		} else {
+			context.JSON(200, gin.H{
+				"code": 0,
+				"msg":  "login success",
+				"data": gin.H{
+					"token": token,
+				},
+			})
 		}
+
 	case 1:
 		context.JSON(404, gin.H{
 			"code": 1,
@@ -78,5 +77,22 @@ func Info(context *gin.Context) {
 		"data": gin.H{
 			"user": user,
 		},
+	})
+}
+
+func QueryRecommend(context *gin.Context) {
+	id, ok := context.Get("user")
+	if !ok {
+		context.JSON(200, gin.H{
+			"msg":  "login first",
+			"code": 404,
+		})
+		return
+	}
+	data := make([]int, 0)
+	data = db.QuerySong(data, id.(uint))
+	context.JSON(200, gin.H{
+		"msg":  " query success",
+		"data": data,
 	})
 }

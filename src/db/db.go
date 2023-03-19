@@ -58,3 +58,17 @@ func Validate(username, password string) (int, uint) {
 	}
 	return 3, 0
 }
+
+func QuerySong(data []int, userId uint) []int {
+	sqlStr := `SELECT songId FROM user_recommend WHERE userId = '` + strconv.Itoa(int(userId)) + `';`
+	songs, err := db.Query(sqlStr)
+	if err != nil {
+		return nil
+	}
+	for songs.Next() {
+		var songId int
+		songs.Scan(&songId)
+		data = append(data, songId)
+	}
+	return data
+}
