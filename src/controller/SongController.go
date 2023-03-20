@@ -26,7 +26,32 @@ func AddLike(context *gin.Context) {
 	}
 	db.InsertLike(int(id.(uint)), uint(songId))
 	context.JSON(200, gin.H{
-		"msg":  "execute success",
+		"msg":  "add success",
+		"code": 200,
+	})
+}
+
+func DeleteLike(context *gin.Context) {
+	songID := context.PostForm("songID")
+	songId, err := strconv.Atoi(songID)
+	if err != nil {
+		context.JSON(200, gin.H{
+			"msg":  "internal error",
+			"code": 404,
+		})
+		return
+	}
+	id, ok := context.Get("user")
+	if !ok {
+		context.JSON(200, gin.H{
+			"msg":  "login first",
+			"code": 404,
+		})
+		return
+	}
+	db.DeleteLike(int(id.(uint)), uint(songId))
+	context.JSON(200, gin.H{
+		"msg":  "delete success",
 		"code": 200,
 	})
 }

@@ -87,3 +87,12 @@ func InsertLike(id int, songID uint) {
 		fmt.Println(err)
 	}
 }
+
+func DeleteLike(id int, songID uint) {
+	sqlStr := `DELETE FROM likes WHERE userId = ` + strconv.Itoa(id) + ` && songId = ` + strconv.Itoa(int(songID)) + `;`
+	fmt.Println(sqlStr)
+	_, err := db.Exec(sqlStr)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
