@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"music_web/common"
 	"strconv"
 	"time"
 )
@@ -59,7 +60,8 @@ func Validate(username, password string) (int, uint) {
 	return 3, 0
 }
 
-func QuerySong(data []int, userId uint) []int {
+func QuerySong(userId uint) []common.Song {
+	res := make([]common.Song, 0)
 	sqlStr := `SELECT songId FROM user_recommend WHERE userId = '` + strconv.Itoa(int(userId)) + `';`
 	songs, err := db.Query(sqlStr)
 	if err != nil {
@@ -68,7 +70,11 @@ func QuerySong(data []int, userId uint) []int {
 	for songs.Next() {
 		var songId int
 		songs.Scan(&songId)
-		data = append(data, songId)
+		sqlStr = `SELECT * FROM songs WHERE id = '` + strconv.Itoa(songId) + `';`
+		song := db.QueryRow(sqlStr)
+		var temp common.Song
+		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate)
+		res = append(res, temp)
 	}
-	return data
+	return res
 }

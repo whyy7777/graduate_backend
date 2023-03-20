@@ -89,8 +89,8 @@ func QueryRecommend(context *gin.Context) {
 		})
 		return
 	}
-	data := make([]int, 0)
-	data = db.QuerySong(data, id.(uint))
+	data := make([]common.Song, 0)
+	data = db.QuerySong(id.(uint))
 	context.JSON(200, gin.H{
 		"msg":  " query success",
 		"data": data,
