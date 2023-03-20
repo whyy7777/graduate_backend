@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	"music_web/common"
 	"strconv"
 	"time"
@@ -77,4 +78,12 @@ func QuerySong(userId uint) []common.Song {
 		res = append(res, temp)
 	}
 	return res
+}
+
+func InsertLike(id int, songID uint) {
+	sqlStr := `INSERT INTO likes(userId, songId)VALUES('` + strconv.Itoa(id) + `','` + strconv.Itoa(int(songID)) + `');`
+	_, err := db.Exec(sqlStr)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
