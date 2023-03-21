@@ -40,6 +40,19 @@ func DeletePlayList(context *gin.Context) {
 }
 
 func GetPlaylists(context *gin.Context) {
+	id, ok := context.Get("user")
+	if !ok {
+		context.JSON(200, gin.H{
+			"msg":  "login first",
+			"code": 404,
+		})
+		return
+	}
+	playlists := db.GetPlaylists(id.(uint))
+	context.JSON(200, gin.H{
+		"msg":  "get success",
+		"data": playlists,
+	})
 
 }
 

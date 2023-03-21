@@ -117,7 +117,9 @@ func GetLike(userId uint) []common.Song {
 }
 
 func NewPlaylist(uid uint, playlistName string) {
-	sqlStr := `INSERT INTO playlists(userId, playListName)VALUES('` + strconv.Itoa(int(uid)) + `','` + playlistName + `');`
+	nowTime := time.Now()
+	date := strconv.Itoa(nowTime.Year()) + "-" + strconv.Itoa(int(nowTime.Month())) + "-" + strconv.Itoa(nowTime.Day())
+	sqlStr := `INSERT INTO playlists(userId, playlistName, establish_date )VALUES('` + strconv.Itoa(int(uid)) + `','` + playlistName + `','` + date + `');`
 	_, err := db.Exec(sqlStr)
 	if err != nil {
 		fmt.Println(err)
@@ -131,4 +133,19 @@ func DeletePlaylist(uid uint, playlistName string) {
 	if err != nil {
 		fmt.Println(err)
 	}
+}
+
+func GetPlaylists(userId uint) []common.Playlist {
+	res := make([]common.Playlist, 0)
+	sqlStr := `SELECT * FROM playlists WHERE userId = '` + strconv.Itoa(int(userId)) + `';`
+	playlists, err := db.Query(sqlStr)
+	if err != nil {
+		return nil
+	}
+	for playlists.Next() {
+		var temp common.Playlist
+		playlists.Scan(&temp.PlaylistId, &temp.UserId, &temp.PlaylistName, &temp.EstablishDate)
+		res = append(res, temp)
+	}
+	return res
 }
