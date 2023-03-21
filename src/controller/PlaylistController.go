@@ -65,3 +65,7 @@ func GetPlaylist(context *gin.Context) {
 		"data": songs,
 	})
 }
+
+func AddToPlaylist(context *gin.Context) {
+
+}
