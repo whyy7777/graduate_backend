@@ -149,3 +149,22 @@ func GetPlaylists(userId uint) []common.Playlist {
 	}
 	return res
 }
+
+func GetPlaylist(playlistId string) []common.Song {
+	res := make([]common.Song, 0)
+	sqlStr := `SELECT songId FROM playlist_songs WHERE playlistId = '` + playlistId + `';`
+	songId, err := db.Query(sqlStr)
+	if err != nil {
+		return nil
+	}
+	for songId.Next() {
+		var id string
+		songId.Scan(&id)
+		sqlStr = `SELECT * FROM songs WHERE id = '` + id + `';`
+		song := db.QueryRow(sqlStr)
+		var temp common.Song
+		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate)
+		res = append(res, temp)
+	}
+	return res
+}

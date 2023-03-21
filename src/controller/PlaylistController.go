@@ -57,5 +57,11 @@ func GetPlaylists(context *gin.Context) {
 }
 
 func GetPlaylist(context *gin.Context) {
-
+	playlistId := context.Query("playlistId")
+	songs := db.GetPlaylist(playlistId)
+	context.JSON(200, gin.H{
+		"msg":  "query success",
+		"code": "200",
+		"data": songs,
+	})
 }
