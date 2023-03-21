@@ -15,7 +15,8 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	r.DELETE("like", middleware.AuthMiddleware(), controller.DeleteLike)
 	r.GET("like", middleware.AuthMiddleware(), controller.GetLike)
 	r.POST("playlist", middleware.AuthMiddleware(), controller.NewPlaylist)
-	r.GET("playlist", middleware.AuthMiddleware())
-
+	r.GET("playlist", middleware.AuthMiddleware(), controller.GetPlaylist)
+	r.DELETE("playlist", middleware.AuthMiddleware(), controller.DeletePlayList)
+	r.GET("playlists", middleware.AuthMiddleware(), controller.GetPlaylists)
 	return r
 }

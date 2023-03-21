@@ -123,3 +123,12 @@ func NewPlaylist(uid uint, playlistName string) {
 		fmt.Println(err)
 	}
 }
+
+func DeletePlaylist(uid uint, playlistName string) {
+	sqlStr := `DELETE FROM playlists WHERE userId = ` + strconv.Itoa(int(uid)) + ` && playlistName = '` + playlistName + `';`
+	fmt.Println(sqlStr)
+	_, err := db.Exec(sqlStr)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
