@@ -115,3 +115,11 @@ func GetLike(userId uint) []common.Song {
 	}
 	return res
 }
+
+func NewPlaylist(uid uint, playlistName string) {
+	sqlStr := `INSERT INTO playlists(userId, playListName)VALUES('` + strconv.Itoa(int(uid)) + `','` + playlistName + `');`
+	_, err := db.Exec(sqlStr)
+	if err != nil {
+		fmt.Println(err)
+	}
+}

@@ -67,8 +67,25 @@ func GetLike(context *gin.Context) {
 	}
 	data := db.GetLike(id.(uint))
 	context.JSON(200, gin.H{
-		"msg":  " query success",
+		"msg":  "query success",
 		"data": data,
 	})
 
+}
+
+func NewPlaylist(context *gin.Context) {
+	playlistName := context.PostForm("playlistName")
+	id, ok := context.Get("user")
+	if !ok {
+		context.JSON(200, gin.H{
+			"msg":  "login first",
+			"code": 404,
+		})
+		return
+	}
+	db.NewPlaylist(id.(uint), playlistName)
+	context.JSON(200, gin.H{
+		"msg":          "add success",
+		"playlistName": playlistName,
+	})
 }
