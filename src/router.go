@@ -13,5 +13,6 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	r.GET("/recommend_song", middleware.AuthMiddleware(), controller.QueryRecommend)
 	r.POST("/like", middleware.AuthMiddleware(), controller.AddLike)
 	r.DELETE("like", middleware.AuthMiddleware(), controller.DeleteLike)
+	r.GET("like", middleware.AuthMiddleware(), controller.GetLike)
 	return r
 }

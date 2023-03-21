@@ -15,7 +15,8 @@ func Login(context *gin.Context) {
 		token, err := common.ReleaseToken(id)
 		if err != nil {
 			context.JSON(500, gin.H{
-				"msg": "internal error",
+				"code": 2,
+				"msg":  "internal error",
 			})
 			return
 		} else {

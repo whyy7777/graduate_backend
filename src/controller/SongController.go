@@ -55,3 +55,20 @@ func DeleteLike(context *gin.Context) {
 		"code": 200,
 	})
 }
+
+func GetLike(context *gin.Context) {
+	id, ok := context.Get("user")
+	if !ok {
+		context.JSON(200, gin.H{
+			"msg":  "login first",
+			"code": 404,
+		})
+		return
+	}
+	data := db.GetLike(id.(uint))
+	context.JSON(200, gin.H{
+		"msg":  " query success",
+		"data": data,
+	})
+
+}
