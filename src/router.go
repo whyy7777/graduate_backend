@@ -20,7 +20,8 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	r.POST("/playlist", middleware.AuthMiddleware(), controller.NewPlaylist)
 	r.GET("/playlist", middleware.AuthMiddleware(), controller.GetPlaylist)
 	r.DELETE("/playlist", middleware.AuthMiddleware(), controller.DeletePlayList)
-	r.PUT("/playlist", middleware.AuthMiddleware(), controller.AddToPlaylist)
+
+	r.PUT("/playlist_song", middleware.AuthMiddleware(), controller.AddToPlaylist)
 	r.DELETE("/playlist_song", middleware.AuthMiddleware(), controller.DeleteFromPlaylist)
 
 	r.GET("/playlists", middleware.AuthMiddleware(), controller.GetPlaylists)
