@@ -170,7 +170,14 @@ func GetPlaylist(playlistId string) []common.Song {
 }
 
 func AddToPlaylist(playlistId string, songId string) {
-	sqlStr := `INSERT INTO playlist_songs(playlistId, songId)VALUES('` + playlistId + `','` + songId + `');`
+	var id = -1
+	sqlStr := `SELECT id FROM playlist_songs WHERE playlistId = ` + playlistId + ` && songId = '` + songId + `';`
+	db.QueryRow(sqlStr).Scan(&id)
+	if id != -1 {
+		return
+	}
+
+	sqlStr = `INSERT INTO playlist_songs(playlistId, songId)VALUES('` + playlistId + `','` + songId + `');`
 	db.Exec(sqlStr)
 }
 
