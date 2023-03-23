@@ -3,7 +3,6 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"music_web/db"
-	"strconv"
 )
 
 func NewPlaylist(context *gin.Context) {
@@ -51,7 +50,7 @@ func GetPlaylist(context *gin.Context) {
 }
 
 func AddToPlaylist(context *gin.Context) {
-	id, ok := context.Get("user")
+	_, ok := context.Get("user")
 	if !ok {
 		context.JSON(200, gin.H{
 			"msg":  "login first",
@@ -60,7 +59,8 @@ func AddToPlaylist(context *gin.Context) {
 		return
 	}
 	songId := context.Query("songId")
-	db.AddToPlaylist(strconv.Itoa(int(id.(uint))), songId)
+	playlistId := context.Query("playlistId")
+	db.AddToPlaylist(playlistId, songId)
 	context.JSON(200, gin.H{
 		"msg":  "execute success",
 		"code": "200",
@@ -82,4 +82,22 @@ func GetPlaylists(context *gin.Context) {
 		"data": playlists,
 	})
 
+}
+
+func DeleteFromPlaylist(context *gin.Context) {
+	_, ok := context.Get("user")
+	if !ok {
+		context.JSON(200, gin.H{
+			"msg":  "login first",
+			"code": 404,
+		})
+		return
+	}
+	songId := context.Query("songId")
+	playlistId := context.Query("playlistId")
+	db.DeleteFromPlaylist(playlistId, songId)
+	context.JSON(200, gin.H{
+		"msg":  "execute success",
+		"code": "200",
+	})
 }

@@ -169,7 +169,12 @@ func GetPlaylist(playlistId string) []common.Song {
 	return res
 }
 
-func AddToPlaylist(userId string, songId string) {
-	sqlStr := `INSERT INTO playlist_songs(playlistId, songId)VALUES('` + userId + `','` + songId + `');`
+func AddToPlaylist(playlistId string, songId string) {
+	sqlStr := `INSERT INTO playlist_songs(playlistId, songId)VALUES('` + playlistId + `','` + songId + `');`
+	db.Exec(sqlStr)
+}
+
+func DeleteFromPlaylist(playlistId string, songId string) {
+	sqlStr := `DELETE FROM playlist_songs WHERE playlistId = ` + playlistId + ` && songId = '` + songId + `';`
 	db.Exec(sqlStr)
 }
