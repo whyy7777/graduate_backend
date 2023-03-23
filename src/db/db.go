@@ -168,3 +168,8 @@ func GetPlaylist(playlistId string) []common.Song {
 	}
 	return res
 }
+
+func AddToPlaylist(userId string, songId string) {
+	sqlStr := `INSERT INTO playlist_songs(playlistId, songId)VALUES('` + userId + `','` + songId + `');`
+	db.Exec(sqlStr)
+}
