@@ -118,9 +118,15 @@ func GetLike(userId uint) []common.Song {
 }
 
 func NewPlaylist(uid uint, playlistName string) {
+	valid := -1
 	nowTime := time.Now()
 	date := strconv.Itoa(nowTime.Year()) + "-" + strconv.Itoa(int(nowTime.Month())) + "-" + strconv.Itoa(nowTime.Day())
-	sqlStr := `INSERT INTO playlists(userId, playlistName, establish_date )VALUES('` + strconv.Itoa(int(uid)) + `','` + playlistName + `','` + date + `');`
+	sqlStr := `SELECT playlistId FROM playlists WHERE userId = ` + strconv.Itoa(int(uid)) + ` && playlistName = '` + playlistName + `';`
+	db.QueryRow(sqlStr).Scan(&valid)
+	if valid != -1 {
+		return
+	}
+	sqlStr = `INSERT INTO playlists(userId, playlistName, establish_date )VALUES('` + strconv.Itoa(int(uid)) + `','` + playlistName + `','` + date + `');`
 	_, err := db.Exec(sqlStr)
 	if err != nil {
 		fmt.Println(err)
