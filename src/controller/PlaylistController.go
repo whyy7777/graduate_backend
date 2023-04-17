@@ -18,6 +18,7 @@ func NewPlaylist(context *gin.Context) {
 	db.NewPlaylist(id.(uint), playlistName)
 	context.JSON(200, gin.H{
 		"msg":          "add success",
+		"code":         200,
 		"playlistName": playlistName,
 	})
 }
