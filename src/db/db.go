@@ -226,3 +226,9 @@ func GetAlbums(singer string) []common.Album {
 	}
 	return data
 }
+
+func GetAlbumSongs(albumId string) []common.Song {
+	songs := make([]common.Song, 0)
+
+	return songs
+}
