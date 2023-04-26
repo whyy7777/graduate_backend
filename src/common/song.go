@@ -5,4 +5,6 @@ type Song struct {
 	SongName    string
 	Singer      string
 	ReleaseDate string
+	Album       string
+	Time        int
 }

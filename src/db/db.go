@@ -75,7 +75,7 @@ func QuerySong(userId uint) []common.Song {
 		sqlStr = `SELECT * FROM songs WHERE id = '` + strconv.Itoa(songId) + `';`
 		song := db.QueryRow(sqlStr)
 		var temp common.Song
-		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate)
+		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time)
 		res = append(res, temp)
 	}
 	return res
@@ -111,7 +111,7 @@ func GetLike(userId uint) []common.Song {
 		sqlStr = `SELECT * FROM songs WHERE id = '` + strconv.Itoa(songId) + `';`
 		song := db.QueryRow(sqlStr)
 		var temp common.Song
-		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate)
+		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time)
 		res = append(res, temp)
 	}
 	return res
@@ -170,7 +170,7 @@ func GetPlaylist(playlistId string) []common.Song {
 		sqlStr = `SELECT * FROM songs WHERE id = '` + id + `';`
 		song := db.QueryRow(sqlStr)
 		var temp common.Song
-		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate)
+		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time)
 		res = append(res, temp)
 	}
 	return res
@@ -242,7 +242,7 @@ func GetAlbumSongs(albumId string) []common.Song {
 		sqlStr = `SELECT * FROM songs WHERE id = ` + id + `;`
 		fmt.Println(sqlStr)
 		song := db.QueryRow(sqlStr)
-		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate)
+		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time)
 		songs = append(songs, temp)
 	}
 	return songs
