@@ -77,6 +77,7 @@ func Register(context *gin.Context) {
 
 func Info(context *gin.Context) {
 	user, _ := context.Get("user")
+	fmt.Println(strconv.Itoa(int(user.(uint))))
 	data := db.GetUserInfo(strconv.Itoa(int(user.(uint))))
 	context.JSON(200, gin.H{
 		"code": 200,

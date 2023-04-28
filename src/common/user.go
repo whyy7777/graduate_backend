@@ -3,6 +3,7 @@ package common
 type User struct {
 	Id                  int
 	Username            string
+	Password            string
 	Gender              string
 	RegisterTime        string
 	CountFollow         int
