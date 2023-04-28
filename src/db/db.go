@@ -206,7 +206,7 @@ func GetHotPlaylists(userId string) []common.Playlist {
 		sqlStr = `SELECT * FROM playlists WHERE playlistId = '` + id + `';`
 		var temp common.Playlist
 		playlist := db.QueryRow(sqlStr)
-		playlist.Scan(&temp.PlaylistId, &temp.UserId, &temp.PlaylistName, &temp.EstablishDate)
+		playlist.Scan(&temp.PlaylistId, &temp.UserId, &temp.PlaylistName, &temp.EstablishDate, &temp.SongCount, &temp.PlayCount)
 		data = append(data, temp)
 	}
 	return data
