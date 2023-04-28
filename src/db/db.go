@@ -254,3 +254,10 @@ func GetPlaylistDetails(playlistId string) common.Playlist {
 	db.QueryRow(sqlStr).Scan(&res.PlaylistId, &res.UserId, &res.PlaylistName, &res.EstablishDate, &res.SongCount, &res.PlayCount)
 	return res
 }
+
+func GetUserInfo(userId string) common.User {
+	sqlStr := `SELECT id, username, gender, register_time, count_follow, count_followed, desc, count_moment,count_create_playlist, count_like_playlist FROM users WHERE id = ` + userId + `;`
+	var res common.User
+	db.QueryRow(sqlStr).Scan(&res.Id, &res.Username, &res.Gender, &res.RegisterTime, &res.CountFollow, &res.CountFollowed, &res.Description, &res.CountMoment, &res.CountCreatePlaylist, &res.CountLikePlaylist)
+	return res
+}

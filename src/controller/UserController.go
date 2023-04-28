@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"music_web/common"
 	"music_web/db"
+	"strconv"
 )
 
 func Login(context *gin.Context) {
@@ -76,10 +77,11 @@ func Register(context *gin.Context) {
 
 func Info(context *gin.Context) {
 	user, _ := context.Get("user")
+	data := db.GetUserInfo(strconv.Itoa(int(user.(uint))))
 	context.JSON(200, gin.H{
 		"code": 200,
 		"data": gin.H{
-			"user": user,
+			"user": data,
 		},
 	})
 }
