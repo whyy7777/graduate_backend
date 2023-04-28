@@ -12,4 +12,5 @@ type User struct {
 	CountMoment         int
 	CountCreatePlaylist int
 	CountLikePlaylist   int
+	Level               int
 }
