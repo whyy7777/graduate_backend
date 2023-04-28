@@ -5,4 +5,6 @@ type Playlist struct {
 	UserId        int
 	PlaylistName  string
 	EstablishDate string
+	SongCount     int
+	PlayCount     int
 }

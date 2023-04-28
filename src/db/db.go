@@ -247,3 +247,10 @@ func GetAlbumSongs(albumId string) []common.Song {
 	}
 	return songs
 }
+
+func GetPlaylistDetails(playlistId string) common.Playlist {
+	var res common.Playlist
+	sqlStr := `SELECT * FROM playlists WHERE playlistId = ` + playlistId + `;`
+	db.QueryRow(sqlStr).Scan(&res.PlaylistId, &res.UserId, &res.PlaylistName, &res.EstablishDate, &res.SongCount, &res.PlayCount)
+	return res
+}

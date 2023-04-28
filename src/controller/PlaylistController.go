@@ -43,11 +43,13 @@ func DeletePlayList(context *gin.Context) {
 
 func GetPlaylist(context *gin.Context) {
 	playlistId := context.Query("playlistId")
+	playlist := db.GetPlaylistDetails(playlistId)
 	songs := db.GetPlaylist(playlistId)
 	context.JSON(200, gin.H{
-		"msg":  "query success",
-		"code": "200",
-		"data": songs,
+		"msg":     "query success",
+		"code":    "200",
+		"data":    songs,
+		"details": playlist,
 	})
 }
 
