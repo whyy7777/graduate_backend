@@ -6,7 +6,7 @@ import (
 	"music_web/db"
 )
 
-func QueryRecommend(context *gin.Context) {
+func GetRecommendSong(context *gin.Context) {
 	id, ok := context.Get("user")
 	if !ok {
 		context.JSON(200, gin.H{
