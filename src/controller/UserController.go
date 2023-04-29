@@ -86,20 +86,3 @@ func Info(context *gin.Context) {
 		},
 	})
 }
-
-func QueryRecommend(context *gin.Context) {
-	id, ok := context.Get("user")
-	if !ok {
-		context.JSON(200, gin.H{
-			"msg":  "login first",
-			"code": 404,
-		})
-		return
-	}
-	data := make([]common.Song, 0)
-	data = db.QuerySong(id.(uint))
-	context.JSON(200, gin.H{
-		"msg":  " query success",
-		"data": data,
-	})
-}

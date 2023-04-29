@@ -2,11 +2,12 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"music_web/common"
 	"music_web/db"
 )
 
-func GetAlbums(context *gin.Context) {
-	_, ok := context.Get("user")
+func QueryRecommend(context *gin.Context) {
+	id, ok := context.Get("user")
 	if !ok {
 		context.JSON(200, gin.H{
 			"msg":  "login first",
@@ -14,10 +15,10 @@ func GetAlbums(context *gin.Context) {
 		})
 		return
 	}
-	singer := context.Query("singerName")
-	albums := db.GetAlbums(singer)
+	data := make([]common.Song, 0)
+	data = db.QuerySong(id.(uint))
 	context.JSON(200, gin.H{
-		"msg":  "get success",
-		"data": albums,
+		"msg":  " query success",
+		"data": data,
 	})
 }

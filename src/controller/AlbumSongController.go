@@ -5,7 +5,7 @@ import (
 	"music_web/db"
 )
 
-func GetAlbums(context *gin.Context) {
+func GetAlbumSongs(context *gin.Context) {
 	_, ok := context.Get("user")
 	if !ok {
 		context.JSON(200, gin.H{
@@ -14,10 +14,10 @@ func GetAlbums(context *gin.Context) {
 		})
 		return
 	}
-	singer := context.Query("singerName")
-	albums := db.GetAlbums(singer)
+	albumId := context.Query("albumId")
+	songs := db.GetAlbumSongs(albumId)
 	context.JSON(200, gin.H{
 		"msg":  "get success",
-		"data": albums,
+		"data": songs,
 	})
 }
