@@ -5,9 +5,9 @@ import (
 	"strconv"
 )
 
-func RecommendSong(userId uint) []common.Song {
+func GetHotSongs(userId string) []common.Song {
 	res := make([]common.Song, 0)
-	sqlStr := `SELECT songId FROM recommend_songs WHERE userId = '` + strconv.Itoa(int(userId)) + `';`
+	sqlStr := `SELECT songId FROM hot_songs WHERE userId = '` + userId + `';`
 	songs, err := db.Query(sqlStr)
 	if err != nil {
 		return nil

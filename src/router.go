@@ -18,22 +18,23 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 
 	r.POST("/playlist", middleware.AuthMiddleware(), controller.NewPlaylist)
 	r.DELETE("/playlist", middleware.AuthMiddleware(), controller.DeletePlayList)
-
 	r.GET("/playlist", middleware.AuthMiddleware(), controller.GetPlaylist)
 
-	r.GET("/playlists/recommend", middleware.AuthMiddleware(), controller.GetRecommendPlaylists)
-	r.GET("/playlists/hot", middleware.AuthMiddleware(), controller.GetHotPlaylists)
-
 	r.GET("/playlists", middleware.AuthMiddleware(), controller.GetCreatePlaylists)
-	r.GET("/like/playlists", middleware.AuthMiddleware(), controller.GetLikePlaylists)
+	r.GET("/playlists/like", middleware.AuthMiddleware(), controller.GetLikePlaylists)
 
-	r.PUT("/playlist_song", middleware.AuthMiddleware(), controller.AddToPlaylist)
-	r.DELETE("/playlist_song", middleware.AuthMiddleware(), controller.DeleteFromPlaylist)
+	r.PUT("/playlist/song", middleware.AuthMiddleware(), controller.AddToPlaylist)
+	r.DELETE("/playlist/song", middleware.AuthMiddleware(), controller.DeleteFromPlaylist)
 
-	r.GET("/recommend_song", middleware.AuthMiddleware(), controller.GetRecommendSong)
+	r.GET("/songs/recommend", middleware.AuthMiddleware(), controller.GetRecommendSong)
+	r.GET("/songs/hot", middleware.AuthMiddleware(), controller.GetHotSong)
 
 	r.GET("/album", middleware.AuthMiddleware(), controller.GetAlbumSongs)
 
 	r.GET("/albums", middleware.AuthMiddleware(), controller.GetAlbums)
+	r.GET("/albums/hot", middleware.AuthMiddleware(), controller.GetHotAlbums)
+
+	r.GET("/playlists/recommend", middleware.AuthMiddleware(), controller.GetRecommendPlaylists)
+	r.GET("/playlists/hot", middleware.AuthMiddleware(), controller.GetHotPlaylists)
 	return r
 }

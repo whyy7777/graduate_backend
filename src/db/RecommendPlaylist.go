@@ -4,7 +4,7 @@ import "music_web/common"
 
 func GetRecommendPlaylists(userId string) []common.Playlist {
 	data := make([]common.Playlist, 0)
-	sqlStr := `SELECT playlistId FROM hot_playlists WHERE userId = '` + userId + `';`
+	sqlStr := `SELECT playlistId FROM recommend_playlists WHERE userId = '` + userId + `';`
 	playlistId, err := db.Query(sqlStr)
 	if err != nil {
 		return nil
