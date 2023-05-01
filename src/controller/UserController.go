@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"music_web/common"
 	"music_web/db"
@@ -11,8 +10,6 @@ import (
 func Login(context *gin.Context) {
 	username := context.PostForm("username")
 	password := context.PostForm("password")
-	fmt.Println(username)
-	fmt.Println(password)
 	ret, id := db.Validate(username, password)
 	switch ret {
 	case 0:
@@ -77,7 +74,6 @@ func Register(context *gin.Context) {
 
 func Info(context *gin.Context) {
 	user, _ := context.Get("user")
-	fmt.Println(strconv.Itoa(int(user.(uint))))
 	data := db.GetUserInfo(strconv.Itoa(int(user.(uint))))
 	context.JSON(200, gin.H{
 		"code": 200,
