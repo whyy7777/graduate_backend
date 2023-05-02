@@ -46,7 +46,7 @@ func Validate(username, password string) (int, uint) {
 func GetUserInfo(userId string) common.User {
 	sqlStr := `SELECT * FROM users WHERE id = ` + userId + `;`
 	var res common.User
-	db.QueryRow(sqlStr).Scan(&res.Id, &res.Username, &res.Password, &res.Gender, &res.RegisterTime, &res.CountFollow, &res.CountFollowed, &res.Description, &res.CountMoment, &res.CountCreatePlaylist, &res.CountLikePlaylist, &res.Level)
+	db.QueryRow(sqlStr).Scan(&res.Id, &res.Username, &res.Password, &res.Gender, &res.RegisterTime, &res.CountFollow, &res.CountFollowed, &res.Description, &res.CountMoment, &res.CountCreatePlaylist, &res.CountLikePlaylist, &res.Level, &res.Type)
 	res.Password = " "
 	return res
 }
