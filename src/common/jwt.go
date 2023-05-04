@@ -19,7 +19,7 @@ func ReleaseToken(userId uint) (string, error) {
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 			IssuedAt:  time.Now().Unix(),
-			Issuer:    "server",
+			Issuer:    "HYY Music server",
 			Subject:   "user token",
 		},
 	}
