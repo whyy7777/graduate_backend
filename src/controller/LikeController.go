@@ -7,7 +7,7 @@ import (
 )
 
 func AddLike(context *gin.Context) {
-	songID := context.PostForm("songID")
+	songID := context.PostForm("songId")
 	songId, err := strconv.Atoi(songID)
 	if err != nil {
 		context.JSON(200, gin.H{
