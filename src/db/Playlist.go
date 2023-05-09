@@ -42,10 +42,10 @@ func GetPlaylist(playlistId string) []common.Song {
 	for songId.Next() {
 		var id string
 		songId.Scan(&id)
-		sqlStr = `SELECT id, song_name, singer, release_date, album, time FROM songs WHERE id = '` + id + `';`
+		sqlStr = `SELECT id, song_name, singer, release_date, album, time, song_id FROM songs WHERE id = '` + id + `';`
 		song := db.QueryRow(sqlStr)
 		var temp common.Song
-		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time)
+		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time, &temp.SongId)
 		res = append(res, temp)
 	}
 	return res

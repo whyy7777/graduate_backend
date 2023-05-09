@@ -7,4 +7,5 @@ type Song struct {
 	ReleaseDate string
 	Album       string
 	Time        int
+	SongId      int
 }

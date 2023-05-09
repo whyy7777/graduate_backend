@@ -17,10 +17,10 @@ func GetAlbumSongs(albumId string) []common.Song {
 		var id string
 		songIds.Scan(&id)
 		fmt.Println(id)
-		sqlStr = `SELECT id, song_name, singer, release_date, album, time FROM songs WHERE id = ` + id + `;`
+		sqlStr = `SELECT id, song_name, singer, release_date, album, time, song_id FROM songs WHERE id = ` + id + `;`
 		fmt.Println(sqlStr)
 		song := db.QueryRow(sqlStr)
-		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time)
+		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time, &temp.SongId)
 		songs = append(songs, temp)
 	}
 	return songs

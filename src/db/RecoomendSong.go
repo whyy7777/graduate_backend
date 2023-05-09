@@ -15,10 +15,10 @@ func RecommendSong(userId uint) []common.Song {
 	for songs.Next() {
 		var songId int
 		songs.Scan(&songId)
-		sqlStr = `SELECT id, song_name, singer, release_date, album, time FROM songs WHERE id = '` + strconv.Itoa(songId) + `';`
+		sqlStr = `SELECT id, song_name, singer, release_date, album, time, song_id FROM songs WHERE id = '` + strconv.Itoa(songId) + `';`
 		song := db.QueryRow(sqlStr)
 		var temp common.Song
-		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time)
+		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time, &temp.SongId)
 		res = append(res, temp)
 	}
 	return res
