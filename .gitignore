@@ -1,6 +1,8 @@
 /.idea/
-/.DS_Store/
+/.DS_Store
 /src/music_web
 /src/temp.go
 /src/main
-/src/.DS_Store/
+/src/.DS_Store
+.idea
+.DS_Store
