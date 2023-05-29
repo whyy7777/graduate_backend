@@ -12,12 +12,15 @@ func NewPlaylist(uid uint, playlistName string) {
 	nowTime := time.Now()
 	date := strconv.Itoa(nowTime.Year()) + "-" + strconv.Itoa(int(nowTime.Month())) + "-" + strconv.Itoa(nowTime.Day())
 	sqlStr := `SELECT playlistId FROM playlists WHERE userId = ` + strconv.Itoa(int(uid)) + ` && playlistName = '` + playlistName + `';`
-	db.QueryRow(sqlStr).Scan(&valid)
+	err := db.QueryRow(sqlStr).Scan(&valid)
+	if err != nil {
+		return
+	}
 	if valid != -1 {
 		return
 	}
 	sqlStr = `INSERT INTO playlists(userId, playlistName, establish_date )VALUES('` + strconv.Itoa(int(uid)) + `','` + playlistName + `','` + date + `');`
-	_, err := db.Exec(sqlStr)
+	_, err = db.Exec(sqlStr)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -41,11 +44,17 @@ func GetPlaylist(playlistId string) []common.Song {
 	}
 	for songId.Next() {
 		var id string
-		songId.Scan(&id)
+		err = songId.Scan(&id)
+		if err != nil {
+			return nil
+		}
 		sqlStr = `SELECT id, song_name, singer, release_date, album, time, song_id FROM songs WHERE id = '` + id + `';`
 		song := db.QueryRow(sqlStr)
 		var temp common.Song
-		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time, &temp.SongId)
+		err = song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time, &temp.SongId)
+		if err != nil {
+			return nil
+		}
 		res = append(res, temp)
 	}
 	return res

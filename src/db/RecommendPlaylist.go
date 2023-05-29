@@ -11,11 +11,17 @@ func GetRecommendPlaylists(userId string) []common.Playlist {
 	}
 	for playlistId.Next() {
 		var id string
-		playlistId.Scan(&id)
+		err = playlistId.Scan(&id)
+		if err != nil {
+			return nil
+		}
 		sqlStr = `SELECT * FROM playlists WHERE playlistId = '` + id + `';`
 		var temp common.Playlist
 		playlist := db.QueryRow(sqlStr)
-		playlist.Scan(&temp.PlaylistId, &temp.UserId, &temp.PlaylistName, &temp.EstablishDate, &temp.SongCount, &temp.PlayCount)
+		err = playlist.Scan(&temp.PlaylistId, &temp.UserId, &temp.PlaylistName, &temp.EstablishDate, &temp.SongCount, &temp.PlayCount)
+		if err != nil {
+			return nil
+		}
 		data = append(data, temp)
 	}
 	return data

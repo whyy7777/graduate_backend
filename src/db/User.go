@@ -27,13 +27,16 @@ func Register(username, password, gender string) int {
 // Validate 0: log in success, 1: user doesn't exist, 2: internal error, 3: incorrect password
 func Validate(username, password string) (int, uint) {
 	var id = -1
-	db.QueryRow("SELECT id FROM users WHERE username = '" + username + "'").Scan(&id)
+	err := db.QueryRow("SELECT id FROM users WHERE username = '" + username + "'").Scan(&id)
+	if err != nil {
+		return 0, 0
+	}
 	if id == -1 {
 		return 1, 0
 	}
 	var realPassword string
 	sqlStr := `SELECT password FROM users WHERE username = '` + username + `';`
-	err := db.QueryRow(sqlStr).Scan(&realPassword)
+	err = db.QueryRow(sqlStr).Scan(&realPassword)
 	if err != nil {
 		return 2, 0
 	}
@@ -46,7 +49,10 @@ func Validate(username, password string) (int, uint) {
 func GetUserInfo(userId string) common.User {
 	sqlStr := `SELECT * FROM users WHERE id = ` + userId + `;`
 	var res common.User
-	db.QueryRow(sqlStr).Scan(&res.Id, &res.Username, &res.Password, &res.Gender, &res.RegisterTime, &res.CountFollow, &res.CountFollowed, &res.Description, &res.CountMoment, &res.CountCreatePlaylist, &res.CountLikePlaylist, &res.Level, &res.Type)
+	err := db.QueryRow(sqlStr).Scan(&res.Id, &res.Username, &res.Password, &res.Gender, &res.RegisterTime, &res.CountFollow, &res.CountFollowed, &res.Description, &res.CountMoment, &res.CountCreatePlaylist, &res.CountLikePlaylist, &res.Level, &res.Type)
+	if err != nil {
+		return res
+	}
 	res.Password = " "
 	return res
 }

@@ -32,11 +32,17 @@ func GetLike(userId uint) []common.Song {
 	}
 	for songs.Next() {
 		var songId int
-		songs.Scan(&songId)
+		err = songs.Scan(&songId)
+		if err != nil {
+			return nil
+		}
 		sqlStr = `SELECT id, song_name, singer, release_date, album, time, song_id FROM songs WHERE id = '` + strconv.Itoa(songId) + `';`
 		song := db.QueryRow(sqlStr)
 		var temp common.Song
-		song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time, &temp.SongId)
+		err = song.Scan(&temp.Id, &temp.SongName, &temp.Singer, &temp.ReleaseDate, &temp.Album, &temp.Time, &temp.SongId)
+		if err != nil {
+			return nil
+		}
 		res = append(res, temp)
 	}
 	return res

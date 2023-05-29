@@ -11,10 +11,16 @@ func GetHotAlbums(userId string) []common.Album {
 	}
 	for albums.Next() {
 		var albumId string
-		albums.Scan(&albumId)
+		err = albums.Scan(&albumId)
+		if err != nil {
+			return nil
+		}
 		var temp common.Album
 		sqlStr = `SELECT * FROM albums WHERE albumId = ` + albumId + `;`
-		db.QueryRow(sqlStr).Scan(&temp.AlbumId, &temp.AlbumName, &temp.Singer, &temp.ReleaseData)
+		err = db.QueryRow(sqlStr).Scan(&temp.AlbumId, &temp.AlbumName, &temp.Singer, &temp.ReleaseData)
+		if err != nil {
+			return nil
+		}
 	}
 	return res
 }

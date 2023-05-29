@@ -13,7 +13,10 @@ func GetAlbums(singer string) []common.Album {
 	}
 	for albums.Next() {
 		var temp common.Album
-		albums.Scan(&temp.AlbumId, &temp.AlbumName, &temp.Singer, &temp.ReleaseData)
+		err = albums.Scan(&temp.AlbumId, &temp.AlbumName, &temp.Singer, &temp.ReleaseData)
+		if err != nil {
+			return nil
+		}
 		data = append(data, temp)
 	}
 	return data

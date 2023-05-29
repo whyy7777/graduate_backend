@@ -39,11 +39,17 @@ func SearchSinger(singerName string) []common.Singer {
 	}
 	for singers.Next() {
 		var singerId string
-		singers.Scan(&singerId)
+		err = singers.Scan(&singerId)
+		if err != nil {
+			return nil
+		}
 		sqlStr = `SELECT singerId, singerName, gender, bornDate FROM songs WHERE id = '` + singerId + `';`
 		song := db.QueryRow(sqlStr)
 		var temp common.Singer
-		song.Scan(&temp.SingerId, &temp.SingerName, &temp.Gender, &temp.BornDate)
+		err = song.Scan(&temp.SingerId, &temp.SingerName, &temp.Gender, &temp.BornDate)
+		if err != nil {
+			return nil
+		}
 		res = append(res, temp)
 	}
 	return res
