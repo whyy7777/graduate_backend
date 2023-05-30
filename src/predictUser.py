@@ -24,3 +24,13 @@ userType = gb2.predict(result)
 updateSql = "UPDATE music_online.listen_record t SET t.userType = " + str(int(userType)) + " WHERE t.userId = " + userId + ";"
 # print(updateSql)
 engine.execute(updateSql)
+deleteSql = "DELETE FROM music_online.recommend_songs WHERE userId = " + userId + ";"
+engine.execute(deleteSql)
+selectSql = "SELECT id FROM music_online.songs WHERE category = " + str(int(userType)) + ";"
+print(selectSql)
+data = pd.read_sql_query(selectSql, engine)
+# print(len(data))
+for i in range(0, len(data)):
+    insertSql = "INSERT INTO music_online.recommend_songs (songId, userId) VALUES (" + str(int(data.loc[i])) + ", " + userId + ");"
+    print(insertSql)
+    engine.execute(insertSql)
