@@ -8,7 +8,7 @@ import (
 
 func InsertLike(id int, songID uint) {
 	recordId := -1
-	sqlStr := `SELECT id FROM likes WHERE userId = ` + strconv.Itoa(int(songID)) + `AND songId = ` + strconv.Itoa(id) + `;`
+	sqlStr := `SELECT id FROM likes WHERE userId = ` + strconv.Itoa(id) + ` AND songId = ` + strconv.Itoa(int(songID)) + `;`
 	err := db.QueryRow(sqlStr).Scan(&recordId)
 	if err != nil {
 		return
@@ -18,7 +18,6 @@ func InsertLike(id int, songID uint) {
 	} else {
 		sqlStr = `DELETE FROM likes WHERE userId = ` + strconv.Itoa(id) + ` AND songId = ` + strconv.Itoa(int(songID)) + `;`
 	}
-
 	_, err = db.Exec(sqlStr)
 	if err != nil {
 		fmt.Println(err)
