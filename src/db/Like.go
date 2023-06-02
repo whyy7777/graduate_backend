@@ -7,8 +7,19 @@ import (
 )
 
 func InsertLike(id int, songID uint) {
-	sqlStr := `INSERT INTO likes(userId, songId)VALUES('` + strconv.Itoa(id) + `','` + strconv.Itoa(int(songID)) + `');`
-	_, err := db.Exec(sqlStr)
+	recordId := -1
+	sqlStr := `SELECT id FROM likes WHERE userId = ` + strconv.Itoa(int(songID)) + `AND songId = ` + strconv.Itoa(id) + `;`
+	err := db.QueryRow(sqlStr).Scan(&recordId)
+	if err != nil {
+		return
+	}
+	if recordId == -1 {
+		sqlStr = `INSERT INTO likes(userId, songId)VALUES('` + strconv.Itoa(id) + `','` + strconv.Itoa(int(songID)) + `');`
+	} else {
+		sqlStr = `DELETE FROM likes WHERE userId = ` + strconv.Itoa(id) + ` AND songId = ` + strconv.Itoa(int(songID)) + `;`
+	}
+
+	_, err = db.Exec(sqlStr)
 	if err != nil {
 		fmt.Println(err)
 	}

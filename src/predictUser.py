@@ -29,7 +29,6 @@ engine.execute(deleteSql)
 selectSql = "SELECT id FROM music_online.songs WHERE category = " + str(int(userType)) + ";"
 print(selectSql)
 data = pd.read_sql_query(selectSql, engine)
-# print(len(data))
 for i in range(0, len(data)):
     insertSql = "INSERT INTO music_online.recommend_songs (songId, userId) VALUES (" + str(int(data.loc[i])) + ", " + userId + ");"
     print(insertSql)
