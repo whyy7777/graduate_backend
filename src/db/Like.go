@@ -11,13 +11,15 @@ func InsertLike(id int, songID uint) {
 	sqlStr := `SELECT id FROM likes WHERE userId = ` + strconv.Itoa(id) + ` AND songId = ` + strconv.Itoa(int(songID)) + `;`
 	err := db.QueryRow(sqlStr).Scan(&recordId)
 	if err != nil {
-		return
+		fmt.Println(err)
 	}
+
 	if recordId == -1 {
 		sqlStr = `INSERT INTO likes(userId, songId)VALUES('` + strconv.Itoa(id) + `','` + strconv.Itoa(int(songID)) + `');`
 	} else {
 		sqlStr = `DELETE FROM likes WHERE userId = ` + strconv.Itoa(id) + ` AND songId = ` + strconv.Itoa(int(songID)) + `;`
 	}
+	fmt.Println(sqlStr)
 	_, err = db.Exec(sqlStr)
 	if err != nil {
 		fmt.Println(err)

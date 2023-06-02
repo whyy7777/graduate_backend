@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"music_web/db"
 	"strconv"
@@ -24,6 +25,7 @@ func AddLike(context *gin.Context) {
 		})
 		return
 	}
+	fmt.Println(id, songID)
 	db.InsertLike(int(id.(uint)), uint(songId))
 	context.JSON(200, gin.H{
 		"msg":  "add success",
