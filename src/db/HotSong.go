@@ -7,6 +7,7 @@ import (
 
 func GetHotSongs(userId string) []common.Song {
 	res := make([]common.Song, 0)
+	userId = "9"
 	sqlStr := `SELECT songId FROM hot_songs WHERE userId = '` + userId + `';`
 	songs, err := db.Query(sqlStr)
 	if err != nil {
